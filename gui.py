@@ -1,7 +1,6 @@
 from itertools import product
 
 import pygame
-import json
 from pygame import Surface
 
 from src.ai import AI, PositionEvaluation
