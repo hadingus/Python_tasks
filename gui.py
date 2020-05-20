@@ -34,7 +34,7 @@ def draw_board(screen: Surface, pos_x: int, pos_y: int, elem_size: int, board: B
             pygame.draw.circle(screen, negative_color, (position[0] + elem_size // 2, position[1] + elem_size // 2), r)
 
 
-def equal_boards(board_a:BoardState, board_b: BoardState) -> 'bool':
+def equal_boards(board_a:BoardState, board_b: BoardState) -> bool:
     for i in range(0, 8):
         for j in range(0, 8):
             if board_a.board[i, j] != board_b.board[i, j] and board_a.board[i, j] * board_a.current_player > 0:
@@ -42,7 +42,7 @@ def equal_boards(board_a:BoardState, board_b: BoardState) -> 'bool':
     return True
 
 
-def verify_loop(start_board: BoardState, finish_board: BoardState, from_x, from_y) -> 'BoardState':
+def verify_loop(start_board: BoardState, finish_board: BoardState, from_x, from_y) -> BoardState:
     states = start_board.unit_move(from_x, from_y)
     for state in states:
         if equal_boards(finish_board, state):

@@ -3,13 +3,13 @@ from typing import Optional, List
 from queue import Queue
 
 
-def val_pos(x, y) -> 'bool':
+def val_pos(x, y) -> bool:
     if x < 0 or y < 0 or x > 7 or y > 7:
         return False
     return True
 
 
-def normalize(x) -> 'int':
+def normalize(x) -> int:
     if x == 0:
         return x
     return x / abs(x)
@@ -25,10 +25,10 @@ class BoardState:
         self.cnt_black = 12
         self.cnt_white = 12
 
-    def inverted(self) -> 'BoardState':
+    def inverted(self):
         return BoardState(board=self.board[::-1, ::-1] * -1, current_player=self.current_player * -1)
 
-    def copy(self) -> 'BoardState':
+    def copy(self):
         result = BoardState(self.board.copy(), self.current_player)
         result.cnt_white = self.cnt_white
         result.cnt_black = self.cnt_black
@@ -147,14 +147,13 @@ class BoardState:
             for x in range(0, 8):
                 if self.board[y, x] * self.current_player > 0:
                     current_states = self.unit_move(x, y)
-                    if current_states is None:
-                        continue
-                    for state in current_states:
-                        result.append(state)
+                    result += current_states
         return result
 
     @property
     def is_game_finished(self) -> bool:
+        if self.get_possible_moves() is None:
+            return True
         if self.cnt_black == 0 or self.cnt_white == 0:
             return True
         else:
@@ -168,7 +167,7 @@ class BoardState:
             return -1
 
     @staticmethod
-    def initial_state() -> 'BoardState':
+    def initial_state():
         board = np.zeros(shape=(8, 8), dtype=np.int8)
 
         for x in range(3):
